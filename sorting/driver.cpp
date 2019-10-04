@@ -22,10 +22,15 @@ int main()
 //	for( int i = 0; i < v.size(); i++ ) 
 //		printf("%d\t",v[i]);
 //	printf("\nmedian=%d\n",k);
-	quickSort<int> sort_obj( v );
-	sort_obj.sortSubArrs( 0, v.size() - 1 );	
-	for( int i = 0; i < v.size(); i++ ) 
-		printf("%d\t",v[i]);
-	printf("\n");
+//	quickSort<int> sort_obj( v );
+//	sort_obj.sortSubArrs( 0, v.size() - 1 );	
+//	for( int i = 0; i < v.size(); i++ ) 
+//		printf("%d\t",v[i]);
+//	printf("\n");
+	HeapSelect< int > heapObj( 5 );
+	for( int i = 0; i < v.size(); i++ ) {
+		heapObj.add( v[ i ]);
+		printf("max=%d\n",heapObj.report( 0 ) );
+	}
 	return 0;
 }

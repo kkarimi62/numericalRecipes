@@ -1,6 +1,7 @@
 #include <vector>
 
 using namespace std;
+#define MIN( n, m ) ((n <= m) ? (n) : (m));
  
 template< class T >
 void piksrt( vector< T > &arr )
@@ -204,26 +205,29 @@ void hpsort( vector< T > &ra )
 		hpsort_util::sift_down( ra, 0, i - 1); //--- the top of the heap to it. 
 	}
 }
-/*
 //---
+template < typename  T >
 struct HeapSelect
 {
 	//--- object for tracking the m largest values seen thus far in a stream of values
 	int m, n, srtd;
-	vector<double> heap; 
+	vector< T > heap; 
 
 	//--- constructor: the argument is the number of largest values to track
-	HeapSelect( int mm ): m( mm ), n( 0 ), srtd( 0 ), heap( mm, 1.e99 ) {} 
+	HeapSelect( int mm ): m( mm ), n( 0 ), srtd( 0 ), heap( mm, (T)(1.e99) ) {} 
 
-	void add( double val )
+	void add( T val )
 	{
 	//--- assimilate a new value from the stream
 		int j, k;
 		if( n < m ) //--- heap not yet filled
 		{
 			heap[ n++ ] = val; 
-			if( n == m ) 
-				sort( heap ); //--- create initial heap by overkill!
+			if( n == m ) { 
+				quickSort< T > sort_obj( heap );
+				sort_obj.sortSubArrs( 0, heap.size() - 1 );
+//				sort( heap ); //--- create initial heap by overkill!
+			}
 		}
 		else
 		{
@@ -248,15 +252,19 @@ struct HeapSelect
 		srtd = 0; //--- mark heap as "unsorted"
 	}
 
-	double report( int k )
+	T report( int k )
 	{
 	//--- return the kth largest value seen so far. k=0 return the largest, k = 1 the 2nd largest
 	//--- k =m-1 the last position tracked. 
 		int mm = MIN( n, m );
 		if( k > mm - 1 ) throw( "heapselect k too big" );
 		if( k == m - 1 ) return heap[ 0 ]; //--- always free, since top of heap
-		if( !srtd ) { sort( heap ); srtd = 1; } //--- otherwise, need to sort the heap
+		if( !srtd ) { 
+			quickSort< T > sort_obj( heap );
+			sort_obj.sortSubArrs( 0, heap.size() - 1 );
+//			sort( heap ); 
+			srtd = 1; 
+		} //--- otherwise, need to sort the heap
 		return heap[ mm - 1 - k ];
 	}
-}
-*/
+};
