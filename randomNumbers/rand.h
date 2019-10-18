@@ -1,6 +1,7 @@
 #ifndef RAND_H
 #define RAND_H
 
+#include "stdio.h"
 typedef unsigned long long Ullong;
 typedef unsigned int Uint;
 struct Ran
